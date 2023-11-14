@@ -1,2 +1,0 @@
-intercept=9000
-slope=-0.022
