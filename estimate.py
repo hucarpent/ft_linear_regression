@@ -13,19 +13,22 @@ def parseData():
 		mileage = float(sys.argv[1])
 	except:
 		sys.exit("wrong mileage value")
-	with open("estimation.csv") as file:
-		csvReader = csv.reader(file)
-		header = next(csvReader)
-		if len(header) != 2 or header[0] != "intercept" or header[1] != "slope":
-			sys.exit("wrong header")
-		values = next(csvReader)
-		if len(values) != 2:
-			sys.exit("wrong number of values")
-		try:
-			intercept = float(values[0])
-			slope = float(values[1])
-		except:
-			sys.exit("wrong values")
+	try:
+		with open("estimation.csv") as file:
+			csvReader = csv.reader(file)
+			header = next(csvReader)
+			if len(header) != 2 or header[0] != "intercept" or header[1] != "slope":
+				sys.exit("wrong header")
+			values = next(csvReader)
+			if len(values) != 2:
+				sys.exit("wrong number of values")
+			try:
+				intercept = float(values[0])
+				slope = float(values[1])
+			except:
+				sys.exit("wrong values")
+	except:
+		sys.exit("estimation.csv missing")
 	return mileage, intercept, slope
 
 def main():

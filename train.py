@@ -45,21 +45,24 @@ def linearRegression(data, dataLen, prevIntercept, prevSlope, interceptDiff, slo
 	return linearRegression(data, dataLen, intercept, slope, interceptDiff, slopeDiff, learningRate)
 
 def parseData():
-	with open("data.csv") as file:
-		csvReader = csv.reader(file)
-		header = next(csvReader)
-		if len(header) != 2 or header[0] != "km" or header[1] != "price":
-			sys.exit("wrong header")
-		data = {"km": [], "price": []}
-		for row in csvReader:
-			if len(row) != 2:
-				sys.exit("wrong number of values")
-			try:
-				data["km"].append(float(row[0]))
-				data["price"].append(float(row[1]))
-			except:
-				sys.exit("wrong values")
-		dataLen = csvReader.line_num - 1
+	try:
+		with open("data.csv") as file:
+			csvReader = csv.reader(file)
+			header = next(csvReader)
+			if len(header) != 2 or header[0] != "km" or header[1] != "price":
+				sys.exit("wrong header")
+			data = {"km": [], "price": []}
+			for row in csvReader:
+				if len(row) != 2:
+					sys.exit("wrong number of values")
+				try:
+					data["km"].append(float(row[0]))
+					data["price"].append(float(row[1]))
+				except:
+					sys.exit("wrong values")
+			dataLen = csvReader.line_num - 1
+	except:
+		sys.exit("data.csv missing")
 	return data, dataLen
 
 def main():
@@ -74,7 +77,6 @@ def main():
 		plotData(data, dataLen, intercept, slope)
 		with open("estimation.csv", "w") as file:
 			file.write(f"intercept,slope\n{intercept},{slope}")
-
 
 if __name__ == "__main__":
 	main()
